@@ -12,8 +12,19 @@ import Particles from './components/Atmosphere/Particles';
 import Cursor from './components/ui/Cursor';
 import './App.css';
 
+// Detect touch/mobile — used to disable desktop-only effects
+const isTouchDevice =
+  typeof window !== 'undefined' &&
+  ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+const isDesktop = !isTouchDevice;
+
 function App() {
   useEffect(() => {
+    // Lenis smooth scroll: only on non-touch desktop
+    // On mobile, native scroll handles everything — Lenis is skipped
+    if (!isDesktop) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -21,8 +32,8 @@ function App() {
       gestureDirection: 'vertical',
       smooth: true,
       mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
+      smoothTouch: false,  // never intercept touch
+      touchMultiplier: 0,  // disable touch scroll handling
       infinite: false,
     });
 
@@ -45,7 +56,7 @@ function App() {
     restDelta: 0.001,
   });
 
-  // Hue-shift: cyan (0°) → violet (160°) as user scrolls to bottom
+  // Hue-shift on progress bar: cyan → violet as user scrolls
   const hue = useTransform(scrollYProgress, [0, 1], [0, 160]);
   const progressFilter = useTransform(hue, (h) => `hue-rotate(${h}deg)`);
 
@@ -59,7 +70,9 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2, ease: "easeInOut" }}
     >
-      <Cursor />
+      {/* Custom cursor: only mounted on desktop (hidden via CSS on mobile too) */}
+      {isDesktop && <Cursor />}
+
       <motion.div
         className="scroll-progress-bar"
         style={{ scaleX, filter: progressFilter }}

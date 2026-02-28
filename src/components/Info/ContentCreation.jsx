@@ -9,17 +9,23 @@ const prefersReducedMotion =
         ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
         : false;
 
+// Disable parallax on touch/mobile — avoids any scroll interference
+const isTouchDevice =
+    typeof window !== 'undefined' &&
+    ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+const disableParallax = prefersReducedMotion || isTouchDevice;
+
 // Parallax thumbnail — shifts background-position on mousemove
 const ParallaxThumb = ({ thumb, bg, children }) => {
     const ref = useRef(null);
     const [pos, setPos] = useState({ x: 50, y: 50 }); // percentage
 
     const handleMouseMove = (e) => {
-        if (prefersReducedMotion) return;
+        if (disableParallax) return;
         const rect = ref.current.getBoundingClientRect();
         const xPct = ((e.clientX - rect.left) / rect.width) * 100;
         const yPct = ((e.clientY - rect.top) / rect.height) * 100;
-        // Map 0-100% range into a tight 45-55% shift (±5%)
         setPos({
             x: 45 + (xPct / 100) * 10,
             y: 45 + (yPct / 100) * 10,

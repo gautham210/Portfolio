@@ -40,8 +40,30 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  overscroll-behavior: none;
+  /* Allow native scroll on mobile — overscroll-behavior locked only on desktop */
+  overscroll-behavior-x: none;
   min-height: 100vh;
+  /* Ensure touch devices can scroll vertically without interference */
+  touch-action: pan-y;
+}
+
+/* ── Mobile safety ── */
+@media (max-width: 1023px) {
+
+  html,
+  body {
+    overflow-y: auto !important;
+    height: auto !important;
+    position: static !important;
+  }
+
+  /* Prevent fixed/sticky elements from creating scroll traps */
+  .cursor-dot,
+  .cursor-glow,
+  .cursor-trail {
+    display: none !important;
+    pointer-events: none !important;
+  }
 }
 
 /* Dynamic Tech Lighting System + Noise Grid + 1px Beams */
