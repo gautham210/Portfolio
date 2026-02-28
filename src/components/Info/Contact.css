@@ -1,0 +1,72 @@
+.contact-section {
+    padding-bottom: 5vh;
+    justify-content: space-between;
+}
+
+.work-with-me {
+    margin-bottom: 10vh;
+}
+
+.options-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.option-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.option-pill:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.option-icon {
+    color: var(--accent);
+}
+
+.footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.copyright {
+    font-size: 0.85rem;
+    opacity: 0.5;
+}

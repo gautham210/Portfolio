@@ -1,0 +1,72 @@
+.cert-section {
+    position: relative;
+    z-index: 5;
+    background: inherit;
+    padding-top: 160px;
+    padding-bottom: 10vh;
+}
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.cert-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cert-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.cert-icon {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.cert-org {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.cert-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.cert-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cert-details li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.cert-details li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    opacity: 0.5;
+}

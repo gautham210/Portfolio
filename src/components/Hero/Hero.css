@@ -1,0 +1,125 @@
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    z-index: 10;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.hero-name {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.03em;
+    color: var(--text-main);
+}
+
+.hero-subtitle {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+}
+
+.hero-roles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+    margin-bottom: 2.5rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+}
+
+.hero-roles .dot {
+    color: var(--accent-cyan);
+    opacity: 0.5;
+}
+
+.hero-bio {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: var(--text-main);
+    max-width: 800px;
+    opacity: 0.8;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.desktop-break {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .desktop-break {
+        display: block;
+    }
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.6;
+}
+
+.scroll-pulse {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--text-muted), transparent);
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.scroll-icon {
+    color: var(--text-muted);
+    animation: bounce 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        height: 60px;
+    }
+
+    50% {
+        opacity: 0.3;
+        height: 40px;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(8px);
+    }
+}

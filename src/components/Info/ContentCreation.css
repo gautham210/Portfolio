@@ -1,0 +1,287 @@
+.content-creation-section {
+    padding-bottom: 5vh;
+}
+
+.creation-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.2) 100%);
+    padding: 3rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.creation-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    z-index: 2;
+    position: relative;
+}
+
+.creation-title {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.page-identity {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.page-name {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.page-link {
+    color: var(--accent-cyan);
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page-link:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.page-niche {
+    font-size: 1.1rem;
+}
+
+.stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.stat-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    color: var(--text-main);
+    opacity: 0.8;
+}
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+}
+
+/* Thumbnail Grid */
+.thumbnails-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    z-index: 2;
+    position: relative;
+}
+
+.video-thumbnail {
+    cursor: pointer;
+}
+
+.thumbnail-placeholder {
+    position: relative;
+    aspect-ratio: 9/16;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thumbnail-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 60%);
+    z-index: 0;
+}
+
+.preview-fx {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 240, 255, 0.1) 2px, rgba(0, 240, 255, 0.1) 4px);
+    z-index: 1;
+    pointer-events: none;
+    animation: staticScroll 2s linear infinite;
+}
+
+@keyframes staticScroll {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 100px;
+    }
+}
+
+.video-thumbnail:hover .thumbnail-placeholder {
+    border-color: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
+}
+
+.video-thumbnail:hover .thumbnail-placeholder::after {
+    background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.5) 0%, transparent 80%);
+}
+
+.thumbnail-placeholder::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+            transparent,
+            rgba(255, 255, 255, 0.03),
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.03),
+            transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.video-thumbnail:hover .thumbnail-placeholder::before {
+    transform: translateX(100%);
+}
+
+.play-overlay {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.video-thumbnail:hover .play-overlay {
+    transform: scale(1.1);
+    background: rgba(0, 240, 255, 0.3);
+    border-color: rgba(0, 240, 255, 0.6);
+}
+
+.view-count {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 4;
+    transition: all 0.3s ease;
+    /* Floating animation */
+    animation: floatCounter 3s ease-in-out infinite;
+}
+
+@keyframes floatCounter {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+.video-thumbnail:hover .view-count {
+    border-color: var(--accent-cyan);
+    background: rgba(0, 240, 255, 0.15);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+}
+
+.thumbnail-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-main);
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.video-thumbnail:hover .thumbnail-title {
+    color: var(--accent-cyan);
+}
+
+.creation-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    width: 600px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+    opacity: 0.1;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Proof line under featured cards */
+.featured-proof-line {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.7;
+    letter-spacing: 0.02em;
+    margin-top: -0.5rem;
+    position: relative;
+    z-index: 2;
+}

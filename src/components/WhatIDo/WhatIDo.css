@@ -1,0 +1,185 @@
+.what-i-do-section {
+    padding-top: 10vh;
+}
+
+.section-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 4rem;
+    letter-spacing: -0.02em;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: 1fr;
+    /* Force equal heights for rows */
+    gap: 1.5rem;
+    position: relative;
+    perspective: 1000px;
+}
+
+.skill-card {
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 160px;
+    height: 100%;
+    /* Force fill grid bounds */
+    transform-style: preserve-3d;
+}
+
+.skill-card-primary {
+    grid-column: 1 / -1;
+    min-height: 240px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+    border-width: 0;
+    /* Handled by animated border pseudo-element below */
+}
+
+/* Ambient Sweep Glow for Primary Card — NO visible spinning rectangle */
+.skill-card-primary::before {
+    content: '';
+    position: absolute;
+    /* Center and scale 3x so edges are never visible inside the card */
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    translate: -50% -50%;
+    background: conic-gradient(from 0deg, transparent 0%, var(--accent-cyan) 25%, transparent 50%, var(--accent-violet) 75%, transparent 100%);
+    border-radius: 50%;
+    z-index: -2;
+    animation: ambientSweep 8s linear infinite;
+    opacity: 0.18;
+    transition: opacity 0.4s ease;
+}
+
+.skill-card-primary::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: var(--card-bg, rgba(255,255,255,0.04));
+    /* Inner solid core matching bg */
+    border-radius: 27px;
+    z-index: -1;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.skill-card-primary:hover::before {
+    opacity: 0.35;
+}
+
+@keyframes ambientSweep {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (min-width: 1024px) {
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .skill-card-primary {
+        grid-column: span 2;
+        grid-row: span 2;
+        padding: 4rem;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
+}
+
+.skill-icon {
+    color: var(--text-main);
+    margin-bottom: 1rem;
+    z-index: 2;
+    transition: transform 0.3s ease, color 0.3s ease;
+    transform: translateZ(20px);
+    /* 3D pop */
+}
+
+.skill-card-primary .skill-icon {
+    color: var(--accent-cyan);
+    margin-bottom: 2rem;
+}
+
+.skill-card-primary .skill-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.skill-card:hover .skill-icon {
+    transform: scale(1.1) translateZ(30px);
+    color: #fff;
+}
+
+.skill-content {
+    z-index: 2;
+    transform: translateZ(10px);
+    /* 3D pop */
+}
+
+.skill-content h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.skill-card-primary .skill-content h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.skill-software {
+    color: var(--text-main);
+    font-size: 1.1rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.skill-level {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+}
+
+/* Hover Glow Effect */
+.card-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at center, var(--accent-cyan) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.skill-card:hover .card-glow {
+    opacity: 0.15;
+}

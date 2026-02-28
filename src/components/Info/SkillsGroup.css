@@ -1,0 +1,263 @@
+.skills-group-section {
+    position: relative;
+    padding-bottom: 5vh;
+}
+
+.skills-master-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 1024px) {
+    .skills-master-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.category-title {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.category-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.skill-group-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.group-name {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+}
+
+.group-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 2;
+}
+
+.group-items li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.item-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.item-level {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Custom Video Editor Card */
+.capcut-glow-card:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.05);
+}
+
+.editor-ui-mockup {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.capcut-glow-card:hover .editor-ui-mockup {
+    opacity: 1;
+}
+
+.mock-reel {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(217, 70, 239, 0.4), transparent 70%), #050816;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(217, 70, 239, 0.2);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.mock-reel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.1);
+    pointer-events: none;
+}
+
+.play-triangle {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-left: 12px solid white;
+    border-bottom: 8px solid transparent;
+    margin-left: 4px;
+}
+
+.mock-timeline {
+    height: 60px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    padding: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+}
+
+.track-layer {
+    height: 12px;
+    border-radius: 4px;
+    width: 80%;
+}
+
+.bg-blue {
+    background: rgba(37, 99, 235, 0.6);
+    width: 100%;
+}
+
+.bg-magenta {
+    background: rgba(217, 70, 239, 0.6);
+    width: 60%;
+    margin-left: 20%;
+}
+
+.track-playhead {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    width: 2px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 0 0 15px #00e5ff, 0 0 30px #00e5ff;
+    z-index: 10;
+}
+
+.capcut-glow-card:hover .track-playhead {
+    animation: scrubTimeline 2s ease-in-out infinite alternate;
+}
+
+@keyframes scrubTimeline {
+    0% {
+        left: 20%;
+    }
+
+    100% {
+        left: 80%;
+    }
+}
+
+/* New Hover Glow Classes */
+.motion-glow-card:hover {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.2), inset 0 0 20px rgba(37, 99, 235, 0.05);
+}
+
+.dev-glow-card:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.05);
+}
+
+.ai-glow-card:hover {
+    border-color: var(--accent-violet);
+    box-shadow: 0 0 30px rgba(124, 58, 237, 0.2), inset 0 0 20px rgba(124, 58, 237, 0.05);
+}
+
+/* Background Meshes */
+.mesh-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
+}
+
+.motion-glow-card .mesh-bg {
+    background: radial-gradient(circle at top right, var(--accent-blue) 0%, transparent 50%);
+}
+
+.dev-glow-card .mesh-bg {
+    background: radial-gradient(circle at bottom left, var(--accent-cyan) 0%, transparent 50%);
+}
+
+.ai-glow-card .mesh-bg {
+    background: radial-gradient(circle at center, var(--accent-violet) 0%, transparent 60%);
+}
+
+.capcut-glow-card .mesh-bg {
+    background: radial-gradient(circle at top right, var(--accent-violet) 0%, transparent 40%),
+        radial-gradient(circle at bottom left, var(--accent-cyan) 0%, transparent 40%);
+}
+
+.skill-group-box:hover .mesh-bg {
+    opacity: 0.25;
+}
+
+/* PATCH 1: Static Video Glow Instead Of Element */
+.capcut-glow-card::before,
+.capcut-glow-card::after {
+    animation: none !important;
+    transform: none !important;
+}
+
+.capcut-glow-card-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 65% 35%, rgba(124, 58, 237, 0.35), transparent 60%),
+        radial-gradient(circle at 35% 75%, rgba(6, 182, 212, 0.35), transparent 60%);
+    filter: blur(40px);
+    opacity: 0.9;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.capcut-glow-card>* {
+    position: relative;
+    z-index: 1;
+}

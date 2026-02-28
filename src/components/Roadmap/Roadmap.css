@@ -1,0 +1,309 @@
+.roadmap-section {
+    position: relative;
+    /* Removed padding-top:5vh — .container already provides 120px top padding */
+    padding-bottom: 220px;
+    margin-bottom: 0;
+    z-index: 1;
+    overflow-x: hidden;
+    /* Override .section's justify-content:center — header must sit at top, not be vertically centered */
+    justify-content: flex-start;
+}
+
+.roadmap-viewport {
+    width: 100%;
+    margin: 0 auto;
+    /* Pull roadmap up to close most of the perspective-induced gap, keeping ~60px breathing room */
+    margin-top: -180px;
+    perspective: 1400px;
+    position: relative;
+    overflow: visible;
+}
+
+.roadmap-track {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    /* Tilt the entire track backward as requested */
+    transform-style: preserve-3d;
+    transform: rotateX(12deg);
+    padding-bottom: 0;
+}
+
+.roadmap-curve-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Base item container - EXACT ANCHOR POINT */
+.roadmap-item {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    z-index: 2;
+    transform-style: preserve-3d;
+}
+
+.roadmap-card-wrapper {
+    position: absolute;
+    width: 400px;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.roadmap-left .roadmap-card-wrapper {
+    transform: translate(calc(-100% - 40px), -50%) rotateX(-12deg);
+    transform-origin: right center;
+}
+
+.roadmap-right .roadmap-card-wrapper {
+    transform: translate(40px, -50%) rotateX(-12deg);
+    transform-origin: left center;
+}
+
+.roadmap-content {
+    width: 100%;
+    z-index: 1;
+}
+
+.roadmap-year {
+    color: var(--accent-cyan);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+.roadmap-minor .roadmap-year {
+    color: var(--accent-violet);
+    font-size: 1rem;
+}
+
+.roadmap-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.roadmap-minor .roadmap-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.major-panel {
+    padding: 2.5rem;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.minor-panel {
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* Learning Steps vs Exact Checkpoints */
+.roadmap-node {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-color);
+    border: 2px solid var(--accent-cyan);
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) rotateX(-12deg);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    z-index: 3;
+}
+
+.node-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.node-minor {
+    width: 20px;
+    height: 20px;
+    border-color: var(--accent-violet);
+}
+
+.node-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    opacity: 0.5;
+    filter: blur(8px);
+    animation: nodePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    pointer-events: none;
+}
+
+.node-minor .node-pulse {
+    background: var(--accent-violet);
+    animation-duration: 3s;
+}
+
+.node-final {
+    width: 80px;
+    height: 80px;
+    border-color: var(--accent-violet);
+    background: rgba(138, 43, 226, 0.1);
+    box-shadow: 0 0 50px rgba(138, 43, 226, 0.8), inset 0 0 20px rgba(138, 43, 226, 0.4);
+}
+
+@keyframes nodePulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* Final node styles */
+.roadmap-final {
+    z-index: 10;
+}
+
+/* Hackathon final card wrapper — centered from its 0×0 node anchor point */
+.roadmap-final-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 50px) rotateX(-12deg);
+    transform-origin: top center;
+    width: min(920px, 90vw);
+    z-index: 1;
+    /* Allow card content to overflow the 0×0 roadmap-item parent */
+    overflow: visible;
+}
+
+/* Content-driven height, consistent padding, centered text */
+.hackathon-panel {
+    padding: 3rem 3.5rem;
+    text-align: center;
+    min-height: unset;
+    height: auto;
+}
+
+.roadmap-final .roadmap-content {
+    text-align: center;
+}
+
+.roadmap-final .roadmap-year {
+    font-size: 2rem;
+    color: var(--text-main);
+    text-shadow: 0 0 30px var(--accent-violet);
+}
+
+.roadmap-final .roadmap-title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--accent-cyan);
+    margin-bottom: 0;
+}
+
+/* Subtitle */
+.roadmap-subtitle {
+    color: var(--accent-cyan);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .roadmap-track {
+        transform: rotateX(0deg);
+    }
+
+    .roadmap-left .roadmap-card-wrapper {
+        transform: translate(40px, -50%) rotateX(0deg);
+        width: calc(100vw - 120px);
+    }
+
+    .roadmap-right .roadmap-card-wrapper {
+        transform: translate(40px, -50%) rotateX(0deg);
+        width: calc(100vw - 120px);
+    }
+
+    .roadmap-final-wrapper {
+        transform: translate(-50%, 60px) rotateX(0deg);
+        width: calc(100vw - 60px);
+    }
+
+    .roadmap-node {
+        transform: translate(-50%, -50%) rotateX(0deg);
+    }
+}
+
+/* PATCH: Visual Nudge & Center Text for 2026 Hackathon */
+[data-year="2026"] .roadmap-content {
+    position: relative;
+    transform: none;
+}
+
+.hackathon-card-content {
+    /* Normal flow — no absolute positioning, no width:max-content */
+    /* Glass padding is fully visible, no clipping */
+    width: 100%;
+    text-align: center;
+}
+
+/* ── Active node focus styles ── */
+.node-active {
+    border-color: rgba(0, 240, 255, 0.45) !important;
+    box-shadow:
+        0 0 0 1px rgba(0, 240, 255, 0.2),
+        0 8px 40px rgba(0, 240, 255, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.node-focused .node-icon {
+    color: #00f0ff;
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.8));
+    transform: scale(1.15);
+    transition: color 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+.node-focused .node-pulse {
+    animation: nodePulse 0.8s ease-out infinite !important;
+    opacity: 0.6 !important;
+    border-color: rgba(0, 240, 255, 0.7) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .node-active,
+    .node-focused .node-icon,
+    .node-focused .node-pulse {
+        transition: none !important;
+        animation: none !important;
+    }
+}
