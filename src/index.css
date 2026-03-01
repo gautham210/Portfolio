@@ -315,7 +315,21 @@ html.lenis body {
 
   /* ── STEP 2: Reduce section container padding ── */
   .container {
-    padding: 60px clamp(16px, 5vw, 24px);
+    padding: 48px clamp(16px, 5vw, 24px);
+  }
+
+  /* ── STEP 1: Remove slide-like section heights ──
+     Non-hero sections must use content height only.
+     Hero keeps 100svh (set in Hero.css). */
+  .section {
+    min-height: unset !important;
+    height: auto !important;
+  }
+
+  /* Prevent justify-content:center from creating dead space at top/bottom */
+  .section {
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 
   /* Ensure nothing bleeds outside viewport ── */

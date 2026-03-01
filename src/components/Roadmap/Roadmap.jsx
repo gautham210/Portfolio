@@ -61,7 +61,63 @@ const prefersReducedMotion =
         ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
         : false;
 
-// ─── RoadmapItem ───────────────────────────────────────────────
+// ─── Hook: detect mobile viewport ─────────────────────────────
+const useIsMobile = () => {
+    const [isMobile, setIsMobile] = useState(
+        typeof window !== 'undefined' ? window.innerWidth < 768 : false
+    );
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 767px)');
+        const handler = (e) => setIsMobile(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+    return isMobile;
+};
+
+// ─── Mobile Timeline Item ────────────────────────────────────
+const MobileTimelineItem = ({ item, index }) => {
+    const isFinal = item.type === 'final';
+    const isMinor = item.type === 'minor';
+
+    return (
+        <motion.div
+            className={`mobile-timeline-item ${isFinal ? 'mobile-final' : ''} ${isMinor ? 'mobile-minor' : ''}`}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.45, delay: 0.05, ease: 'easeOut' }}
+        >
+            {/* Node dot */}
+            <div className={`mobile-node ${isMinor ? 'mobile-node-minor' : ''} ${isFinal ? 'mobile-node-final' : ''}`}>
+                <span className="mobile-node-icon">{getIcon(item.iconType)}</span>
+                <span className="mobile-node-pulse" />
+            </div>
+
+            {/* Card */}
+            <div className={`mobile-card glass-panel ${isMinor ? 'minor-panel' : 'major-panel'} ${isFinal ? 'hackathon-panel mobile-hackathon-card' : ''}`}>
+                <h3 className="roadmap-year">{item.year}</h3>
+                <h4 className="roadmap-title">{item.title}</h4>
+                {item.subtitle && (
+                    <p className="roadmap-subtitle" style={{ whiteSpace: 'pre-line', lineHeight: 1.4 }}>
+                        {item.subtitle}
+                    </p>
+                )}
+            </div>
+        </motion.div>
+    );
+};
+
+// ─── Mobile Roadmap (full vertical timeline) ─────────────────
+const MobileRoadmap = () => (
+    <div className="mobile-roadmap-timeline">
+        {milestones.map((item, i) => (
+            <MobileTimelineItem key={i} item={item} index={i} />
+        ))}
+    </div>
+);
+
+// ─── Desktop RoadmapItem ────────────────────────────────────
 const RoadmapItem = ({ item, isActive }) => {
     const isFinal = item.type === 'final';
     const isMinor = item.type === 'minor';
@@ -119,9 +175,9 @@ const RoadmapItem = ({ item, isActive }) => {
 const Roadmap = () => {
     const sectionRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const isMobile = useIsMobile();
 
     // 1. Node-synced path draw — pathLength tracks the active node's position
-    // Each node occupies an equal slice of the normalised 0→1 range
     const nodeProgress = nodes.map((_, i) => i / (nodes.length - 1));
 
     const rawPathLength = useMotionValue(0);
@@ -136,11 +192,11 @@ const Roadmap = () => {
 
     // 2. Active node focus — closest node to 45% viewport height
     useEffect(() => {
-        if (prefersReducedMotion) return;
+        if (prefersReducedMotion || isMobile) return;
         const onScroll = () => {
             const viewportMid = window.scrollY + window.innerHeight * 0.45;
             const sectionTop = sectionRef.current?.offsetTop ?? 0;
-            const relY = viewportMid - sectionTop - 160; // 160 ≈ header+margin
+            const relY = viewportMid - sectionTop - 160;
             let closest = 0, minDist = Infinity;
             nodes.forEach((node, i) => {
                 const d = Math.abs(node.yPos - relY);
@@ -150,7 +206,7 @@ const Roadmap = () => {
         };
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+    }, [isMobile]);
 
     return (
         <section ref={sectionRef} className="section roadmap-section container" id="roadmap">
@@ -159,90 +215,96 @@ const Roadmap = () => {
                 <p className="text-muted" style={{ margin: 0 }}>A journey through creativity and tech.</p>
             </div>
 
-            <div className="roadmap-viewport">
-                <div className="roadmap-track" style={{ height: `${totalHeight}px` }}>
+            {/* ── Mobile: vertical timeline ── */}
+            {isMobile && <MobileRoadmap />}
 
-                    <div className="roadmap-curve-svg">
-                        <svg width="100%" height="100%" viewBox={`0 0 1000 ${totalHeight}`} preserveAspectRatio="xMidYMin slice">
-                            <defs>
-                                <linearGradient id="cyanGlow" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#00e5ff" />
-                                    <stop offset="50%" stopColor="#7c3aed" />
-                                    <stop offset="100%" stopColor="#2563eb" />
-                                </linearGradient>
-                                <filter id="pathBlur">
-                                    <feGaussianBlur stdDeviation="9" />
-                                </filter>
-                                <filter id="nodeGlow" x="-80%" y="-80%" width="260%" height="260%">
-                                    <feGaussianBlur stdDeviation="14" />
-                                </filter>
-                            </defs>
+            {/* ── Desktop: absolute SVG layout ── */}
+            {!isMobile && (
+                <div className="roadmap-viewport">
+                    <div className="roadmap-track" style={{ height: `${totalHeight}px` }}>
 
-                            {/* Static ambient glow behind the path */}
-                            <path
-                                d={svgPath}
-                                fill="none"
-                                stroke="rgba(0,240,255,0.12)"
-                                strokeWidth="32"
-                                filter="url(#pathBlur)"
-                            />
+                        <div className="roadmap-curve-svg">
+                            <svg width="100%" height="100%" viewBox={`0 0 1000 ${totalHeight}`} preserveAspectRatio="xMidYMin slice">
+                                <defs>
+                                    <linearGradient id="cyanGlow" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#00e5ff" />
+                                        <stop offset="50%" stopColor="#7c3aed" />
+                                        <stop offset="100%" stopColor="#2563eb" />
+                                    </linearGradient>
+                                    <filter id="pathBlur">
+                                        <feGaussianBlur stdDeviation="9" />
+                                    </filter>
+                                    <filter id="nodeGlow" x="-80%" y="-80%" width="260%" height="260%">
+                                        <feGaussianBlur stdDeviation="14" />
+                                    </filter>
+                                </defs>
 
-                            {/* Scroll-drawn glowing path */}
-                            <motion.path
-                                d={svgPath}
-                                fill="none"
-                                stroke="url(#cyanGlow)"
-                                strokeWidth="6"
-                                strokeLinecap="round"
-                                style={{ pathLength }}
-                            />
-
-                            {/* Active-node glow dot that springs between nodes */}
-                            {!prefersReducedMotion && (
-                                <motion.circle
-                                    r="18"
-                                    fill="rgba(0,240,255,0.3)"
-                                    filter="url(#nodeGlow)"
-                                    initial={{
-                                        cx: 500 + nodes[0].xOffset,
-                                        cy: nodes[0].yPos,
-                                        opacity: 0.35,
-                                    }}
-                                    animate={{
-                                        cx: 500 + (nodes[activeIndex]?.xOffset ?? nodes[0].xOffset),
-                                        cy: nodes[activeIndex]?.yPos ?? nodes[0].yPos,
-                                        opacity: [0.35, 0.85, 0.35],
-                                    }}
-                                    transition={{
-                                        cx: { type: "spring", stiffness: 55, damping: 18 },
-                                        cy: { type: "spring", stiffness: 55, damping: 18 },
-                                        opacity: { duration: 1.6, repeat: Infinity, ease: "easeInOut" },
-                                    }}
+                                {/* Static ambient glow behind the path */}
+                                <path
+                                    d={svgPath}
+                                    fill="none"
+                                    stroke="rgba(0,240,255,0.12)"
+                                    strokeWidth="32"
+                                    filter="url(#pathBlur)"
                                 />
-                            )}
-                        </svg>
 
-                        {/* Trophy at final node */}
-                        <div
-                            className="roadmap-node node-final trophy-node"
-                            style={{
-                                position: "absolute",
-                                left: "50%",
-                                top: `${nodes[nodes.length - 1].yPos}px`,
-                                transform: "translate(-50%, -50%) rotateX(-12deg)",
-                                zIndex: 10,
-                            }}
-                        >
-                            <div className="node-icon">{getIcon(nodes[nodes.length - 1].iconType)}</div>
-                            <div className="node-pulse"></div>
+                                {/* Scroll-drawn glowing path */}
+                                <motion.path
+                                    d={svgPath}
+                                    fill="none"
+                                    stroke="url(#cyanGlow)"
+                                    strokeWidth="6"
+                                    strokeLinecap="round"
+                                    style={{ pathLength }}
+                                />
+
+                                {/* Active-node glow dot */}
+                                {!prefersReducedMotion && (
+                                    <motion.circle
+                                        r="18"
+                                        fill="rgba(0,240,255,0.3)"
+                                        filter="url(#nodeGlow)"
+                                        initial={{
+                                            cx: 500 + nodes[0].xOffset,
+                                            cy: nodes[0].yPos,
+                                            opacity: 0.35,
+                                        }}
+                                        animate={{
+                                            cx: 500 + (nodes[activeIndex]?.xOffset ?? nodes[0].xOffset),
+                                            cy: nodes[activeIndex]?.yPos ?? nodes[0].yPos,
+                                            opacity: [0.35, 0.85, 0.35],
+                                        }}
+                                        transition={{
+                                            cx: { type: "spring", stiffness: 55, damping: 18 },
+                                            cy: { type: "spring", stiffness: 55, damping: 18 },
+                                            opacity: { duration: 1.6, repeat: Infinity, ease: "easeInOut" },
+                                        }}
+                                    />
+                                )}
+                            </svg>
+
+                            {/* Trophy at final node */}
+                            <div
+                                className="roadmap-node node-final trophy-node"
+                                style={{
+                                    position: "absolute",
+                                    left: "50%",
+                                    top: `${nodes[nodes.length - 1].yPos}px`,
+                                    transform: "translate(-50%, -50%) rotateX(-12deg)",
+                                    zIndex: 10,
+                                }}
+                            >
+                                <div className="node-icon">{getIcon(nodes[nodes.length - 1].iconType)}</div>
+                                <div className="node-pulse"></div>
+                            </div>
                         </div>
-                    </div>
 
-                    {nodes.map((item, i) => (
-                        <RoadmapItem key={i} item={item} isActive={i === activeIndex} />
-                    ))}
+                        {nodes.map((item, i) => (
+                            <RoadmapItem key={i} item={item} isActive={i === activeIndex} />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </section>
     );
 };

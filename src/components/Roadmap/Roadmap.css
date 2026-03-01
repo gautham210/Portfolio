@@ -394,3 +394,174 @@
         animation: none !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE ROADMAP TIMELINE — New vertical layout (< 768px)
+   Completely separate from the absolute desktop layout.
+   Only rendered when isMobile === true in Roadmap.jsx
+═══════════════════════════════════════════════════════════ */
+
+.mobile-roadmap-timeline {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-left: 20px;
+    /* space for node dot + line */
+    padding-right: 0;
+    padding-bottom: 40px;
+}
+
+/* Continuous vertical glowing line */
+.mobile-roadmap-timeline::before {
+    content: '';
+    position: absolute;
+    left: 36px;
+    /* centre of node dot */
+    top: 16px;
+    bottom: 16px;
+    width: 2px;
+    background: linear-gradient(to bottom,
+            #00e5ff 0%,
+            #7c3aed 50%,
+            #2563eb 100%);
+    opacity: 0.5;
+    border-radius: 2px;
+}
+
+/* Each timeline row */
+.mobile-timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+    padding: 0 0 20px 0;
+}
+
+/* NODE DOT */
+.mobile-node {
+    position: relative;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-primary, #050816);
+    border: 2px solid var(--accent-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    z-index: 2;
+    margin-top: 16px;
+    /* aligns with card top */
+}
+
+.mobile-node-minor {
+    width: 22px;
+    height: 22px;
+    border-color: var(--accent-violet);
+    margin-left: 5px;
+    /* centres smaller dot on the line */
+}
+
+.mobile-node-final {
+    width: 52px;
+    height: 52px;
+    border-color: var(--accent-violet);
+    background: rgba(138, 43, 226, 0.12);
+    box-shadow: 0 0 24px rgba(138, 43, 226, 0.7), inset 0 0 12px rgba(138, 43, 226, 0.3);
+    margin-left: -10px;
+    /* centres bigger dot on the line */
+}
+
+/* Pulse ring behind each node */
+.mobile-node-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(6px);
+    animation: nodePulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    pointer-events: none;
+}
+
+.mobile-node-minor .mobile-node-pulse {
+    background: var(--accent-violet);
+    animation-duration: 3.2s;
+}
+
+.mobile-node-final .mobile-node-pulse {
+    background: var(--accent-violet);
+    animation-duration: 1.8s;
+    filter: blur(10px);
+    opacity: 0.6;
+}
+
+.mobile-node-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* CARD — fills remaining width */
+.mobile-card {
+    flex: 1;
+    min-width: 0;
+    /* prevent flex overflow */
+    width: 0;
+    /* combined with flex:1 forces card to fill */
+    margin-top: 8px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Final hackathon card: center-aligned wide card */
+.mobile-final {
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0;
+}
+
+.mobile-final .mobile-node {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.mobile-hackathon-card {
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+}
+
+.mobile-hackathon-card .roadmap-title {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+    color: var(--accent-cyan);
+    font-weight: 800;
+}
+
+.mobile-hackathon-card .roadmap-year {
+    font-size: 1.25rem;
+    text-shadow: 0 0 20px var(--accent-violet);
+}
+
+/* Tap feedback */
+.mobile-card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-node-pulse {
+        animation: none !important;
+    }
+}

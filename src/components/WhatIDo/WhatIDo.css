@@ -188,36 +188,40 @@
 @media (max-width: 767px) {
 
     .what-i-do-section {
-        padding-top: 5vh;
+        padding-top: 4vh;
     }
 
-    /* Single column on mobile */
+    /* 2-column compact grid — feels modern, not slide-like */
     .skills-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        grid-auto-rows: auto;
     }
 
-    /* Primary feature card: stack vertically, full width */
+    /* Hero (Video Editing) card: full width, compact height */
     .skill-card-primary {
-        grid-column: 1;
-        min-height: 180px;
-        flex-direction: column;
-        align-items: flex-start;
+        grid-column: 1 / -1;
+        /* spans both columns */
+        min-height: 160px;
+        flex-direction: row;
+        align-items: center;
         justify-content: flex-start;
+        gap: 1.25rem;
         padding: 1.5rem;
     }
 
+    /* Secondary cards: comfortable tap target */
     .skill-card {
         min-height: 120px;
-        padding: 1.5rem;
+        padding: 1.25rem;
     }
 
     /* Smaller primary heading */
     .skill-card-primary .skill-content h3 {
-        font-size: clamp(1.5rem, 6vw, 2rem);
+        font-size: clamp(1.25rem, 5vw, 1.75rem);
     }
 
-    /* Disable hover 3D transforms on mobile */
+    /* No sticky hover transforms on mobile */
     .skill-card:hover .skill-icon {
         transform: none;
     }
@@ -228,9 +232,14 @@
         transition: transform 0.1s ease;
     }
 
-    /* Reduce ambient sweep opacity on mobile for perf */
+    /* Reduce ambient sweep on mobile for perf */
     .skill-card-primary::before {
-        opacity: 0.1;
-        animation-duration: 16s;
+        opacity: 0.08;
+        animation-duration: 18s;
+    }
+
+    /* section-title tighter margin */
+    .section-title {
+        margin-bottom: 2rem;
     }
 }
