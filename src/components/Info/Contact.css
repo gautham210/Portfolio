@@ -70,3 +70,56 @@
     font-size: 0.85rem;
     opacity: 0.5;
 }
+
+/* ── Mobile: Contact Section (< 768px) ── */
+@media (max-width: 767px) {
+
+    .contact-section {
+        padding-bottom: calc(env(safe-area-inset-bottom) + 32px);
+    }
+
+    .work-with-me {
+        margin-bottom: 6vh;
+    }
+
+    .options-grid {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .option-pill {
+        width: 100%;
+        min-height: 52px;
+        padding: 1rem 1.25rem;
+        border-radius: 20px;
+        justify-content: flex-start;
+    }
+
+    /* Disable sticky hover on mobile */
+    .option-pill:hover {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Tap feedback */
+    .option-pill:active {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.25);
+        transform: scale(0.98);
+        transition: transform 0.1s ease, background 0.1s ease;
+    }
+
+    .footer {
+        padding-top: 2.5rem;
+        padding-bottom: calc(env(safe-area-inset-bottom) + 32px);
+        gap: 1.5rem;
+    }
+
+    .contact-links {
+        gap: 1.25rem;
+    }
+
+    .contact-link {
+        font-size: 1rem;
+        min-height: 44px;
+    }
+}

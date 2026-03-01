@@ -285,3 +285,51 @@
     position: relative;
     z-index: 2;
 }
+
+/* ── Mobile: ContentCreation Section (< 768px) ── */
+@media (max-width: 767px) {
+
+    .creation-card {
+        padding: 1.5rem;
+        gap: 2rem;
+    }
+
+    .creation-header {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* Thumbnails: 2 per row on mobile */
+    .thumbnails-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .page-name {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+
+    /* Stats: 2 columns */
+    .stats-row {
+        gap: 0.75rem;
+    }
+
+    .stat-pill {
+        padding: 0.75rem 1rem;
+        flex: 1 1 calc(50% - 0.375rem);
+    }
+
+    /* Tap feedback on thumbnails */
+    .video-thumbnail:active .thumbnail-placeholder {
+        border-color: rgba(0, 240, 255, 0.5);
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+        transition: border-color 0.1s ease;
+    }
+
+    /* Reduce blur on mobile */
+    .creation-bg-glow {
+        width: 300px;
+        height: 300px;
+        filter: blur(60px);
+    }
+}

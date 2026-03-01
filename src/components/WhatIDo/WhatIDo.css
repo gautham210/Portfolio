@@ -67,7 +67,7 @@
     content: '';
     position: absolute;
     inset: 1px;
-    background: var(--card-bg, rgba(255,255,255,0.04));
+    background: var(--card-bg, rgba(255, 255, 255, 0.04));
     /* Inner solid core matching bg */
     border-radius: 27px;
     z-index: -1;
@@ -182,4 +182,55 @@
 
 .skill-card:hover .card-glow {
     opacity: 0.15;
+}
+
+/* ── Mobile: WhatIDo Section (< 768px) ── */
+@media (max-width: 767px) {
+
+    .what-i-do-section {
+        padding-top: 5vh;
+    }
+
+    /* Single column on mobile */
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Primary feature card: stack vertically, full width */
+    .skill-card-primary {
+        grid-column: 1;
+        min-height: 180px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 1.5rem;
+    }
+
+    .skill-card {
+        min-height: 120px;
+        padding: 1.5rem;
+    }
+
+    /* Smaller primary heading */
+    .skill-card-primary .skill-content h3 {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+
+    /* Disable hover 3D transforms on mobile */
+    .skill-card:hover .skill-icon {
+        transform: none;
+    }
+
+    /* Tap feedback */
+    .skill-card:active {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+    }
+
+    /* Reduce ambient sweep opacity on mobile for perf */
+    .skill-card-primary::before {
+        opacity: 0.1;
+        animation-duration: 16s;
+    }
 }

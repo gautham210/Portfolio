@@ -261,3 +261,62 @@
     position: relative;
     z-index: 1;
 }
+
+/* ── Mobile: SkillsGroup Section (< 768px) ── */
+@media (max-width: 767px) {
+
+    /* Always single column on mobile regardless of min-width 1024px rule */
+    .skills-master-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+    }
+
+    .skill-group-box {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+
+    .category-title {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+        margin-bottom: 1rem;
+    }
+
+    .item-name {
+        font-size: 1rem;
+    }
+
+    /* Reduce capcut mesh blur on mobile */
+    .capcut-glow-card-layer {
+        filter: blur(20px);
+        opacity: 0.7;
+    }
+
+    /* Tap feedback */
+    .skill-group-box:active {
+        transform: scale(0.98);
+        transition: transform 0.12s ease;
+    }
+
+    /* Disable hover-only glow on mobile (sticks on tap) */
+    .capcut-glow-card:hover,
+    .motion-glow-card:hover,
+    .dev-glow-card:hover,
+    .ai-glow-card:hover {
+        border-color: var(--card-border);
+        box-shadow: none;
+    }
+
+    .skill-group-box:hover .mesh-bg {
+        opacity: 0.1;
+    }
+
+    /* Editor mockup: ensure it doesn't overflow */
+    .editor-ui-mockup {
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    .mock-timeline {
+        width: 100%;
+    }
+}

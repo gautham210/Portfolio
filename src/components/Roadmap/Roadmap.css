@@ -236,29 +236,116 @@
     text-transform: uppercase;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
+/* ═══════════════════════════════════════════
+   MOBILE ROADMAP — Full Fix (< 768px)
+   Path + nodes + cards centered, no overflow
+═══════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+    /* 1. Disable 3-D tilt completely */
+    .roadmap-viewport {
+        perspective: none;
+        margin-top: -60px;
+        /* much smaller negative pull on mobile */
+    }
+
     .roadmap-track {
-        transform: rotateX(0deg);
+        transform: none;
+        transform-style: flat;
+        max-width: 100%;
+        /* Give the track enough min-height so absolute children are visible */
+        min-height: 2200px;
+    }
+
+    /* 2. Section padding */
+    .roadmap-section {
+        padding-bottom: 80px;
+    }
+
+    /* 3. Curve SVG stays full width — no changes needed */
+
+    /* 4. Both left and right cards → right side of the path node */
+    .roadmap-card-wrapper {
+        width: calc(100vw - 96px);
+        max-width: 340px;
     }
 
     .roadmap-left .roadmap-card-wrapper {
-        transform: translate(40px, -50%) rotateX(0deg);
-        width: calc(100vw - 120px);
+        transform: translate(36px, -50%);
+        transform-origin: left center;
+        left: 0;
     }
 
     .roadmap-right .roadmap-card-wrapper {
-        transform: translate(40px, -50%) rotateX(0deg);
-        width: calc(100vw - 120px);
+        transform: translate(36px, -50%);
+        transform-origin: left center;
+        left: 0;
     }
 
-    .roadmap-final-wrapper {
-        transform: translate(-50%, 60px) rotateX(0deg);
-        width: calc(100vw - 60px);
-    }
-
+    /* 5. Nodes — flatten rotateX */
     .roadmap-node {
-        transform: translate(-50%, -50%) rotateX(0deg);
+        transform: translate(-50%, -50%);
+        width: 28px;
+        height: 28px;
+    }
+
+    .node-minor {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* 6. Active node glow — keep visible but not oversized */
+    .node-final {
+        width: 56px;
+        height: 56px;
+        box-shadow: 0 0 28px rgba(138, 43, 226, 0.7), inset 0 0 12px rgba(138, 43, 226, 0.3);
+    }
+
+    /* 7. Card panels — smaller padding */
+    .major-panel {
+        padding: 1.5rem;
+    }
+
+    .minor-panel {
+        padding: 1rem 1.25rem;
+    }
+
+    /* 8. Typography in cards */
+    .roadmap-title {
+        font-size: 1.1rem;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .roadmap-year {
+        font-size: 1rem;
+    }
+
+    /* 9. Hackathon final card */
+    .roadmap-final-wrapper {
+        transform: translate(-50%, 40px);
+        width: calc(100vw - 32px);
+        left: 50%;
+    }
+
+    .hackathon-panel {
+        padding: 1.75rem 1.25rem;
+    }
+
+    .roadmap-final .roadmap-title {
+        font-size: clamp(1.5rem, 7vw, 2.2rem);
+        word-break: break-word;
+    }
+
+    .roadmap-final .roadmap-year {
+        font-size: 1.25rem;
+    }
+
+    /* 10. Touch tap feedback for cards */
+    .roadmap-card-wrapper:active .major-panel,
+    .roadmap-card-wrapper:active .minor-panel {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
     }
 }
 
